@@ -1,0 +1,48 @@
+<resources>
+    <!-- Dimension activity_list_meetings -->
+    <!-- Floating button - to add meeting  -->
+    <dimen name="fab_margin">20dp</dimen>
+
+    <!-- Dimension activity_add_meeting -->
+    <!--  Text view - "Select your color"      -->
+    <dimen name="select_your_color_marginTop"> 15dp </dimen>
+    <dimen name="select_your_color_textSize"> 36sp </dimen>
+
+    <!-- Image view - image meeting   -->
+    <dimen name="image_meeting_width"> 100dp </dimen>
+    <dimen name="image_meeting_height"> 100dp </dimen>
+    <dimen name="image_meeting_marginTop"> 30dp </dimen>
+    <dimen name="image_meeting_marginStart"> 26dp </dimen>
+    <!--   Text input Layout - information meeting marginTop -->
+    <dimen name="information_meeting_marginTop"> 20dp </dimen>
+    <!--   Text input Layout - save meeting -->
+    <dimen name="save_meeting_marginTop"> 20dp </dimen>
+    <dimen name="save_meeting_cornerRadius"> 20dp </dimen>
+
+    <!-- Dimension view_holder_meeting -->
+    <!--    Image view - image meeting -->
+    <dimen name="image_meeting_view_holder_width"> 50dp </dimen>
+    <dimen name="image_meeting_view_holder_height"> 50dp </dimen>
+    <dimen name="image_meeting_view_holder_marginStart"> 16dp </dimen>
+    <dimen name="image_meeting_view_holder_marginTop"> 10dp </dimen>
+    <dimen name="image_meeting_view_holder_marginBottom"> 10dp </dimen>
+
+    <!--    Text view - information meeting -->
+    <dimen name="information_meeting_view_holder_marginStart"> 4dp </dimen>
+    <dimen name="information_meeting_view_holder_marginTop"> 10dp </dimen>
+    <dimen name="information_meeting_view_holder_textSize"> 16sp </dimen>
+
+    <!--    Text view - members meeting -->
+    <dimen name="members_meeting_view_holder_marginStart"> 4dp </dimen>
+    <dimen name="members_meeting_view_holder_marginTop"> 6dp </dimen>
+
+    <!--    Image button - to delete meeting -->
+    <dimen name="delete_meeting_view_holder_marginEnd"> 16dp </dimen>
+    <dimen name="delete_meeting_view_holder_marginTop"> 6dp </dimen>
+
+
+
+
+
+
+</resources>

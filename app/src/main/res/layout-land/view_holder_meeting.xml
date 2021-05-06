@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.">
+
+
+    <ImageView
+        android:id="@+id/list_meeting_imageview_meeting"
+        android:layout_width="@dimen/image_meeting_view_holder_width"
+        android:layout_height="@dimen/image_meeting_view_holder_height"
+        android:layout_marginStart="@dimen/image_meeting_view_holder_marginStart"
+        android:layout_marginTop="@dimen/image_meeting_view_holder_marginTop"
+        android:layout_marginBottom="@dimen/image_meeting_view_holder_marginBottom"
+        android:contentDescription="@string/content_description_meeting_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/list_meeting_textview_meeting_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/information_meeting_view_holder_marginStart"
+        android:layout_marginTop="@dimen/information_meeting_view_holder_marginTop"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/list_meeting_imageview_meeting"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/list_meeting_textview_members_address_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/members_meeting_view_holder_marginStart"
+        android:layout_marginTop="@dimen/members_meeting_view_holder_marginTop"
+        android:textStyle="italic"
+        android:text="@string/members_address_email"
+        app:layout_constraintStart_toEndOf="@id/list_meeting_imageview_meeting"
+        app:layout_constraintTop_toBottomOf="@id/list_meeting_textview_meeting_information" />
+
+    <ImageButton
+        android:id="@+id/list_meeting_imagebutton_delete_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/delete_meeting_view_holder_marginEnd"
+        android:layout_marginTop="@dimen/delete_meeting_view_holder_marginTop"
+        android:background="@null"
+        android:contentDescription="@string/delete_meeting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/list_meeting_textview_meeting_information"
+        app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,15 +4,17 @@ public class AddMeetingViewState {
 
     private final boolean isEmailValid;
     private final boolean isLocationValid;
-    private final boolean isDateNotEmpty;
+    private final boolean isDateSelected;
+    private final boolean isTimeSelected;
 
 
 
 
-    public AddMeetingViewState(boolean isEmailValid, boolean isLocationValid, boolean isDateNotEmpty) {
+    public AddMeetingViewState(boolean isEmailValid, boolean isLocationValid, boolean isDateSelected, boolean isTimeSelected) {
         this.isEmailValid = isEmailValid;
         this.isLocationValid = isLocationValid;
-        this.isDateNotEmpty = isDateNotEmpty;
+        this.isDateSelected = isDateSelected;
+        this.isTimeSelected = isTimeSelected;
     }
 
     public boolean isEmailValid() {
@@ -23,5 +25,7 @@ public class AddMeetingViewState {
         return isLocationValid;
     }
 
-    public boolean isDateNotEmpty() { return isDateNotEmpty; }
+    public boolean isDateSelected() { return isDateSelected; }
+
+    public boolean isTimeSelected() { return isTimeSelected; }
 }

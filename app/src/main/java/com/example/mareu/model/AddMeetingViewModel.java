@@ -46,7 +46,8 @@ public class AddMeetingViewModel extends ViewModel {
         String[] membersAddressEmail = membersMeeting.split(",");
         boolean locationIsRight = !TextUtils.isEmpty(locationMeeting);
         boolean addressIsRight = true;
-        boolean isDateNotEmpty = !TextUtils.isEmpty(dateMeeting);
+        boolean isDateSelected = !TextUtils.isEmpty(dateMeeting);
+        boolean isTimeSelected = !TextUtils.isEmpty(dateMeeting);
         for (String address : membersAddressEmail) {
             String trimAddress = address.trim();
             Matcher matcher = EMAIL_ADDRESS.matcher(trimAddress);
@@ -56,14 +57,14 @@ public class AddMeetingViewModel extends ViewModel {
         }
 
 
-        if(locationIsRight && addressIsRight && isDateNotEmpty){
+        if(locationIsRight && addressIsRight && isDateSelected){
             mMyMeetingRepository.addMeeting(new MyMeeting(subjectMeeting, timeMeeting, dateMeeting,locationMeeting, membersMeeting, imageMeeting));
             onMeetingAdded().setValue(true);
 
 
 
         } else {
-            mAddMeetingViewStateMutableLiveData.setValue(new AddMeetingViewState(addressIsRight,locationIsRight, isDateNotEmpty));
+            mAddMeetingViewStateMutableLiveData.setValue(new AddMeetingViewState(addressIsRight,locationIsRight, isDateSelected, isTimeSelected));
         }
 
 
@@ -74,9 +75,13 @@ public class AddMeetingViewModel extends ViewModel {
     }
 
     public String getDateMeetingFormat(int dayOfMonth, int month , int year){
+        month = month + 1;
         return mApplication.getString(R.string.date_meeting_format,dayOfMonth,month,year);
     }
 
+    public String getTimeMeetingFormat(int hour, int minute){
+        return mApplication.getString(R.string.time_meeting_format,hour,minute);
+    }
 
 }
 

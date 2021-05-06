@@ -1,6 +1,7 @@
 package com.example.mareu;
 
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -23,6 +24,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.PickerActions.setDate;
+import static androidx.test.espresso.contrib.PickerActions.setTime;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -32,8 +34,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -97,13 +99,12 @@ public class MyMeetingInstrumentedTest {
         onView(withId(R.id.add_meeting_imageview_meeting)).perform(click()).perform();
         onView(withId(R.id.add_meeting_subEdit)).perform(click())
                 .perform(typeText("Reunion A")).perform(ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.add_meeting_date)).perform(click());
+        onView(withId(R.id.add_meeting_dateLyt)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(setDate(2021, 5, 30));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.autoCompleteTextView)).perform(click());
-        onView(withText("11H00"))
-                .inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+        onView(withId(R.id.add_meeting_timeLyt)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(setTime(15,30 ));
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_locationEdit)).perform(click())
                 .perform(typeText("Salle 221")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_membersEdit)).perform(click())
@@ -115,13 +116,12 @@ public class MyMeetingInstrumentedTest {
         onView(withId(R.id.add_meeting_imageview_meeting)).perform(click()).perform();
         onView(withId(R.id.add_meeting_subEdit)).perform(click())
                 .perform(typeText("Reunion B")).perform(ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.add_meeting_date)).perform(click());
+        onView(withId(R.id.add_meeting_dateLyt)).perform(click());
         onView(isAssignableFrom(DatePicker.class)).perform(setDate(2021, 5, 1));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.autoCompleteTextView)).perform(click());
-        onView(withText("17H00"))
-                .inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+        onView(withId(R.id.add_meeting_timeLyt)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(setTime(16,30 ));
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_locationEdit)).perform(click())
                 .perform(typeText("Salle 223")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_membersEdit)).perform(click())

@@ -93,7 +93,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/add_meeting_date"
+            android:id="@+id/add_meeting_dateLyt"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,18 +114,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_meeting_timeLyt"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_baseline_access_time_24"
             android:layout_marginTop="@dimen/information_meeting_marginTop">
 
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_meeting_timeEdit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:maxLength="5"
+                android:focusable="false"
                 android:hint="@string/meeting_time"
-                android:text="@string/meeting_time_start"
-                android:inputType="none"/>
+                android:inputType="date"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

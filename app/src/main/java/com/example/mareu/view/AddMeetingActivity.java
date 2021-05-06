@@ -1,23 +1,18 @@
 package com.example.mareu.view;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.mareu.R;
 import com.example.mareu.ViewModelFactory;
 import com.example.mareu.model.AddMeetingViewModel;
-import com.example.mareu.model.AddMeetingViewState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -63,20 +57,22 @@ public class AddMeetingActivity extends AppCompatActivity {
     TextInputLayout addSubjectMeeting;
 
     @BindView(R.id.add_meeting_timeLyt)
-    TextInputLayout addTimeMeeting;
+    TextInputLayout addTimeMeetingLyt;
+
+    @BindView(R.id.add_meeting_timeEdit)
+    TextInputEditText addTimeMeeting;
 
     @BindView(R.id.add_meeting_dateEdit)
     TextInputEditText addDateMeeting;
 
-    @BindView(R.id.add_meeting_date)
+    @BindView(R.id.add_meeting_dateLyt)
     TextInputLayout addDateMeetingLyt;
 
-    @BindView(R.id.autoCompleteTextView)
-    AutoCompleteTextView mAutoCompleteTextView;
 
 
     private int imageMeeting;
     final Calendar myCalendar = Calendar.getInstance();
+    private TimePickerDialog mTimePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +80,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_meeting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.time_meeting));
-        myAdapter.setDropDownViewResource(R.layout.dropdown_menu);
-        mAutoCompleteTextView.setAdapter(myAdapter);
         Glide.with(this)
                 .load(R.drawable.blue)
                 .apply(RequestOptions.circleCropTransform())
@@ -141,7 +133,6 @@ public class AddMeetingActivity extends AppCompatActivity {
 
 
         DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
-            month = month + 1;
             addDateMeeting.setText(viewModel.getDateMeetingFormat(dayOfMonth, month, year));
         };
 
@@ -155,10 +146,17 @@ public class AddMeetingActivity extends AppCompatActivity {
             dialog.show();
         });
 
+        addTimeMeeting.setOnClickListener(v -> {
+            int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = myCalendar.get(Calendar.MINUTE);
+            mTimePickerDialog = new TimePickerDialog(AddMeetingActivity.this,
+                    (tp, sHour, sMinute) -> addTimeMeeting.setText(viewModel.getTimeMeetingFormat(sHour,sMinute)), hour, minutes, true);
+            mTimePickerDialog.show();
+        });
 
         addMeeting.setOnClickListener(v -> {
 
-            String timeMeeting = addTimeMeeting.getEditText().getText().toString();
+            String timeMeeting = addTimeMeetingLyt.getEditText().getText().toString();
             String locationMeeting = addLocationMeeting.getEditText().getText().toString();
             String membersMeeting = addMembersMeeting.getEditText().getText().toString();
             String subjectMeeting = addSubjectMeeting.getEditText().getText().toString();
@@ -182,13 +180,19 @@ public class AddMeetingActivity extends AppCompatActivity {
             } else {
                 addLocationMeeting.setError(null);
             }
-            if (!addMeetingViewState.isDateNotEmpty()) {
+            if (!addMeetingViewState.isDateSelected()) {
                 addDateMeetingLyt.setError("The date wasn't selected");
 
             } else {
                 addDateMeetingLyt.setError(null);
             }
+            if (!addMeetingViewState.isDateSelected()) {
+                addTimeMeetingLyt.setError("The time wasn't selected");
 
+            } else {
+                addTimeMeetingLyt.setError(null);
+
+            }
         });
 
         viewModel.onMeetingAdded().observe(this, isSuccess -> addMeetingWithSuccess(isSuccess));

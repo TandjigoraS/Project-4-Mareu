@@ -57,7 +57,7 @@ public class AddMeetingViewModel extends ViewModel {
         }
 
 
-        if(locationIsRight && addressIsRight && isDateSelected){
+        if(locationIsRight && addressIsRight && isDateSelected && isTimeSelected){
             mMyMeetingRepository.addMeeting(new MyMeeting(subjectMeeting, timeMeeting, dateMeeting,locationMeeting, membersMeeting, imageMeeting));
             onMeetingAdded().setValue(true);
 

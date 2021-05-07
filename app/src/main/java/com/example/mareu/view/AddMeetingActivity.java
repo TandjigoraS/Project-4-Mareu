@@ -186,7 +186,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             } else {
                 addDateMeetingLyt.setError(null);
             }
-            if (!addMeetingViewState.isDateSelected()) {
+            if (!addMeetingViewState.isTimeSelected()) {
                 addTimeMeetingLyt.setError("The time wasn't selected");
 
             } else {

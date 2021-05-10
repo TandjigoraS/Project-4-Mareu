@@ -37,7 +37,6 @@ public class MyMeetingViewModel extends ViewModel {
                 combine(myMeetingList, searchQueryDateMutableLiveData.getValue());
             }
         });
-
         mListMeetingsMediatorLiveData.addSource(searchQueryDateMutableLiveData, new Observer<String>() {
             @Override
             public void onChanged(String searchQuery) {

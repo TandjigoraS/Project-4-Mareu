@@ -2,10 +2,8 @@ package com.example.mareu;
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.mareu.model.AddMeetingViewModel;
-import com.example.mareu.model.MyMeetingViewModel;
 import com.example.mareu.repository.MyMeetingRepository;
 
 import org.junit.Before;
@@ -14,9 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,7 +32,7 @@ public class AddMeetingUnitTest {
     }
 
     @Test
-    public void when_addMeeting() throws InterruptedException {
+    public void when_addMeeting() {
         //Given
         MyMeeting myMeeting = new MyMeeting("Reunion A"
                 , "10H00"

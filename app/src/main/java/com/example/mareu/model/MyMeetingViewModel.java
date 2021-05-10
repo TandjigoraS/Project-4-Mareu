@@ -31,26 +31,11 @@ public class MyMeetingViewModel extends ViewModel {
         mMyMeetingRepository = myMeetingRepository;
         mApplication = application;
         LiveData<List<MyMeeting>> meetingsLiveData = myMeetingRepository.getListMeetings();
-        mListMeetingsMediatorLiveData.addSource(meetingsLiveData, new Observer<List<MyMeeting>>() {
-            @Override
-            public void onChanged(List<MyMeeting> myMeetingList) {
-                combine(myMeetingList, searchQueryDateMutableLiveData.getValue());
-            }
-        });
-        mListMeetingsMediatorLiveData.addSource(searchQueryDateMutableLiveData, new Observer<String>() {
-            @Override
-            public void onChanged(String searchQuery) {
-                combine(meetingsLiveData.getValue(), searchQuery);
-            }
-        });
+        mListMeetingsMediatorLiveData.addSource(meetingsLiveData, myMeetingList -> combine(myMeetingList, searchQueryDateMutableLiveData.getValue()));
+        mListMeetingsMediatorLiveData.addSource(searchQueryDateMutableLiveData, searchQuery -> combine(meetingsLiveData.getValue(), searchQuery));
 
 
-        mListMeetingsMediatorLiveData.addSource(searchQueryLocationMutableLiveData, new Observer<String>() {
-            @Override
-            public void onChanged(String searchQuery) {
-                combine(meetingsLiveData.getValue(), searchQuery);
-            }
-        });
+        mListMeetingsMediatorLiveData.addSource(searchQueryLocationMutableLiveData, searchQuery -> combine(meetingsLiveData.getValue(), searchQuery));
 
 
     }

@@ -3,7 +3,6 @@ package com.example.mareu;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.mareu.model.AddMeetingViewModel;
 import com.example.mareu.model.MyMeetingViewModel;
 import com.example.mareu.repository.MyMeetingRepository;
 
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 @RunWith(MockitoJUnitRunner.class)

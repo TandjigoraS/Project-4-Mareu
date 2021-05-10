@@ -132,9 +132,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
 
 
-        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
-            addDateMeeting.setText(viewModel.getDateMeetingFormat(dayOfMonth, month, year));
-        };
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> addDateMeeting.setText(viewModel.getDateMeetingFormat(dayOfMonth, month, year));
 
         addDateMeeting.setOnClickListener(v -> {
             int year = myCalendar.get(Calendar.YEAR);

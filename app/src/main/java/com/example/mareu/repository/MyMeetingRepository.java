@@ -3,9 +3,7 @@ package com.example.mareu.repository;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-
 import com.example.mareu.MyMeeting;
-import com.example.mareu.R;
 
 import java.util.ArrayList;
 import java.util.List;

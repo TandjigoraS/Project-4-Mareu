@@ -20,32 +20,5 @@
     <string name="meeting_format">%s - %s - %s - %s</string>
     <string name="date_meeting_format">%d/%d/%d</string>
     <string name="time_meeting_format">%d:%d</string>
-    <string name="meeting_time_start">00H00</string>
     <string name="add_meeting_date">Date</string>
-    <string-array name="time_meeting">
-        <item>00H00</item>
-        <item>01H00</item>
-        <item>02H00</item>
-        <item>03H00</item>
-        <item>04H00</item>
-        <item>05H00</item>
-        <item>06H00</item>
-        <item>07H00</item>
-        <item>08H00</item>
-        <item>09H00</item>
-        <item>10H00</item>
-        <item>11H00</item>
-        <item>12H00</item>
-        <item>13H00</item>
-        <item>14H00</item>
-        <item>15H00</item>
-        <item>16H00</item>
-        <item>17H00</item>
-        <item>18H00</item>
-        <item>19H00</item>
-        <item>20H00</item>
-        <item>21H00</item>
-        <item>22H00</item>
-        <item>23H00</item>
-    </string-array>
 </resources>

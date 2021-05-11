@@ -27,41 +27,55 @@ public class MyMeetingViewModel extends ViewModel {
     private final MutableLiveData<String> searchQueryLocationMutableLiveData = new MutableLiveData<>();
     private final Application mApplication;
 
-    public MyMeetingViewModel(MyMeetingRepository myMeetingRepository,Application application) {
+    public MyMeetingViewModel(MyMeetingRepository myMeetingRepository, Application application) {
         mMyMeetingRepository = myMeetingRepository;
         mApplication = application;
         LiveData<List<MyMeeting>> meetingsLiveData = myMeetingRepository.getListMeetings();
-        mListMeetingsMediatorLiveData.addSource(meetingsLiveData, myMeetingList -> combine(myMeetingList, searchQueryDateMutableLiveData.getValue()));
-        mListMeetingsMediatorLiveData.addSource(searchQueryDateMutableLiveData, searchQuery -> combine(meetingsLiveData.getValue(), searchQuery));
+        mListMeetingsMediatorLiveData.addSource(meetingsLiveData, myMeetingList -> combine(
+                myMeetingList,
+                searchQueryDateMutableLiveData.getValue(),
+                searchQueryLocationMutableLiveData.getValue())
+        );
+        mListMeetingsMediatorLiveData.addSource(searchQueryDateMutableLiveData, dateSearchQuery -> combine(
+                meetingsLiveData.getValue(),
+                dateSearchQuery,
+                searchQueryLocationMutableLiveData.getValue()
+
+                )
+        );
 
 
-        mListMeetingsMediatorLiveData.addSource(searchQueryLocationMutableLiveData, searchQuery -> combine(meetingsLiveData.getValue(), searchQuery));
+        mListMeetingsMediatorLiveData.addSource(searchQueryLocationMutableLiveData, locationSearchQuery -> combine(
+                meetingsLiveData.getValue(),
+                searchQueryDateMutableLiveData.getValue(),
+                locationSearchQuery
+
+                )
+        );
 
 
     }
 
-    private void combine(@Nullable List<MyMeeting> meetings, @Nullable String searchQuery) {
+    private void combine(@Nullable List<MyMeeting> meetings, @Nullable String dateSearchQuery, @Nullable String locationSearchQuery) {
         if (meetings == null) {
             return;
         }
-        if (searchQuery == null) {
-            mListMeetingsMediatorLiveData.setValue(meetings);
-        } else {
-            List<MyMeeting> results = new ArrayList<>();
+        List<MyMeeting> results = new ArrayList<>();
 
-            for (MyMeeting meeting : meetings) {
-                if (meeting.getLocationMeeting().toLowerCase().contains(searchQuery)) {
-                    results.add(meeting);
-                } else if (meeting.getDateMeeting().toLowerCase().contains(searchQuery)){
-                    results.add(meeting);
+        for (MyMeeting meeting : meetings) {
 
-                }
+            boolean hasDateQuery = dateSearchQuery != null && !dateSearchQuery.trim().isEmpty();
+            boolean hasLocationQuery = locationSearchQuery != null && !locationSearchQuery.trim().isEmpty();
+            boolean isDateOk = meeting.getLocationMeeting().toLowerCase().contains(dateSearchQuery);
+            boolean isLocationOk = meeting.getDateMeeting().toLowerCase().contains(locationSearchQuery);
 
+            if ((isDateOk || !hasDateQuery) && (isLocationOk || !hasLocationQuery)) {
+                results.add(meeting);
 
             }
-            mListMeetingsMediatorLiveData.setValue(results);
-
         }
+        mListMeetingsMediatorLiveData.setValue(results);
+
 
     }
 
@@ -71,15 +85,14 @@ public class MyMeetingViewModel extends ViewModel {
         return mListMeetingsMediatorLiveData;
     }
 
-    public String getMeetingFormat (MyMeeting meeting) {
-        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    public String getMeetingFormat(MyMeeting meeting) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         return mApplication.getString(R.string.meeting_format,
                 meeting.getSubjectMeeting(),
                 meeting.getTimeMeeting(),
                 String.format(meeting.getDateMeeting(), dateTimeFormatter),
                 meeting.getLocationMeeting());
     }
-
 
 
     public void removeMeeting(MyMeeting meeting) {
@@ -93,7 +106,6 @@ public class MyMeetingViewModel extends ViewModel {
     public void filterMeetingByLocation(String newText) {
         searchQueryLocationMutableLiveData.setValue(newText.toLowerCase());
     }
-
 
 
 }

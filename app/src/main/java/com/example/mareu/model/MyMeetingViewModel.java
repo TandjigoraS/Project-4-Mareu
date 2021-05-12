@@ -60,23 +60,26 @@ public class MyMeetingViewModel extends ViewModel {
         if (meetings == null) {
             return;
         }
-        List<MyMeeting> results = new ArrayList<>();
+        if(dateSearchQuery == null && locationSearchQuery == null ){
+            mListMeetingsMediatorLiveData.setValue(meetings);
+        } else {
+            List<MyMeeting> results = new ArrayList<>();
 
-        for (MyMeeting meeting : meetings) {
+            for (MyMeeting meeting : meetings) {
 
-            boolean hasDateQuery = dateSearchQuery != null && !dateSearchQuery.trim().isEmpty();
-            boolean hasLocationQuery = locationSearchQuery != null && !locationSearchQuery.trim().isEmpty();
-            boolean isDateOk = meeting.getLocationMeeting().toLowerCase().contains(dateSearchQuery);
-            boolean isLocationOk = meeting.getDateMeeting().toLowerCase().contains(locationSearchQuery);
+                boolean hasDateQuery = dateSearchQuery != null && !dateSearchQuery.trim().isEmpty();
+                boolean hasLocationQuery = locationSearchQuery != null && !locationSearchQuery.trim().isEmpty();
+                boolean isDateOk = meeting.getDateMeeting().toLowerCase().contains(dateSearchQuery);
+                boolean isLocationOk = meeting.getLocationMeeting().toLowerCase().contains(locationSearchQuery);
 
-            if ((isDateOk || !hasDateQuery) && (isLocationOk || !hasLocationQuery)) {
-                results.add(meeting);
+                if ((isLocationOk || hasLocationQuery) && (isDateOk || hasDateQuery)) {
+                    results.add(meeting);
 
+                }
             }
+            mListMeetingsMediatorLiveData.setValue(results);
+
         }
-        mListMeetingsMediatorLiveData.setValue(results);
-
-
     }
 
 

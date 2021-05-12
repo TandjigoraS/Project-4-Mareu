@@ -72,7 +72,7 @@ public class MyMeetingViewModel extends ViewModel {
                 boolean isDateOk = meeting.getDateMeeting().toLowerCase().contains(dateSearchQuery);
                 boolean isLocationOk = meeting.getLocationMeeting().toLowerCase().contains(locationSearchQuery);
 
-                if ((isLocationOk || hasLocationQuery) && (isDateOk || hasDateQuery)) {
+                if ((isLocationOk || !hasLocationQuery) && (isDateOk || !hasDateQuery)) {
                     results.add(meeting);
 
                 }

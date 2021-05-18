@@ -12,13 +12,29 @@
     <string name="meeting_image">Meeting image</string>
     <string name="content_description_meeting_image">Meeting image</string>
     <string name="delete_meeting">To delete myMeeting</string>
-    <string name="filter_by_hour">Filter by hour</string>
+    <string name="filter_by_location">Filter by location</string>
     <string name="filter_by_date">Filter by date</string>
     <string name="members_address_email">monsieur@gmail.com</string>
     <string name="empty_not_saved">Meeting not saved because it is empty</string>
     <string name="select_your_color">Select your color : </string>
     <string name="meeting_format">%s - %s - %s - %s</string>
     <string name="date_meeting_format">%d/%d/%d</string>
-    <string name="time_meeting_format">%d:%d</string>
+    <string name="time_meeting_format">%02d:%02d</string>
     <string name="add_meeting_date">Date</string>
+    <string name="all_meetings">All meetings</string>
+    <string name="time_error">The time was not selected</string>
+    <string name="date_error">The date was not selected</string>
+    <string name="address_error">Address email is wrong or empty</string>
+    <string name="location_error">The location of the meeting is empty</string>
+    <string name="comma">,</string>
+    <string name="date_time_formatter_of_pattern">yyyy/MM/dd</string>
+    <string name="date_title_alert_dialog">Enter the date of a meeting</string>
+    <string name="location_title_alert_dialog">Enter the location of a meeting</string>
+    <string name="positive_button_alert_dialog">OK</string>
+    <string name="empty"> </string>
+    <string name="unknown_viewModel_class">Unknown ViewModel class</string>
+    <string name="error_add_meeting">Error : Meeting does not add in the list</string>
+    <string name="has_active_observe">Multiple observers registered but only one will be notified of changes.</string>
+    <string name="single_event">SingleLiveEvent</string>
+
 </resources>

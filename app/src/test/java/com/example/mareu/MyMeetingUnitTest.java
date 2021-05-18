@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,7 +45,7 @@ public class MyMeetingUnitTest {
 
 
     @Test
-    public void nominal_case() throws InterruptedException {
+    public void when_myListMeetingsHaveMeeting() throws InterruptedException {
         //Given
 
         listMeetingsMutableLiveData.setValue(generateMeetingsList());
@@ -62,6 +63,25 @@ public class MyMeetingUnitTest {
 
 
     }
+    @Test
+    public void when_myListMeetingsDoesNotHaveMeeting() throws InterruptedException {
+        //Given
+
+        listMeetingsMutableLiveData.setValue(null);
+
+
+        List<MyMeeting> result = UnitTestUtils.getOrAwaitValue(myMeetingViewModel.getListMeetingsLiveData());
+
+        // Then
+        assertNull(result);
+
+        Mockito.verify(myMeetingRepository, Mockito.times(1)).getListMeetings();
+
+
+        Mockito.verifyNoMoreInteractions(myMeetingRepository);
+
+
+    }
 
     @Test
     public void when_removeMeeting() {
@@ -71,7 +91,7 @@ public class MyMeetingUnitTest {
                 "Reunion C"
                 , "10H00"
                 , "03/05/2021"
-                , "Salle 223"
+                , "Paris"
                 , "tandjigora@gmail.com"
                 , R.drawable.blue
         );
@@ -92,20 +112,21 @@ public class MyMeetingUnitTest {
     }
 
     @Test
-    public void when_filterMyListMeetingsByLocationAndDate() throws InterruptedException {
+    public void when_filterMyListMeetingsWithLocationAndDate() throws InterruptedException {
 
         //Given
         listMeetingsMutableLiveData.setValue(generateMeetingsList());
 
         // When
-        myMeetingViewModel.filterMeetingByLocation("223");
         myMeetingViewModel.filterMeetingByDate("01/05/2021");
+        myMeetingViewModel.filterMeetingByLocation("Paris");
+
 
 
         //Then
         List<MyMeeting> result = UnitTestUtils.getOrAwaitValue(myMeetingViewModel.getListMeetingsLiveData());
 
-        assertEquals(generateMeetingsListFilteredByLocationAndDate(), result);
+        assertEquals(generateMeetingsListFilteredLocationAndDate(), result);
 
         Mockito.verify(myMeetingRepository, Mockito.times(1)).getListMeetings();
 
@@ -113,6 +134,76 @@ public class MyMeetingUnitTest {
 
 
     }
+    @Test
+    public void when_filterMyListMeetingsWithLocation() throws InterruptedException {
+
+        //Given
+        listMeetingsMutableLiveData.setValue(generateMeetingsList());
+
+        // When
+        myMeetingViewModel.filterMeetingByLocation("Paris");
+
+
+
+        //Then
+        List<MyMeeting> result = UnitTestUtils.getOrAwaitValue(myMeetingViewModel.getListMeetingsLiveData());
+
+        assertEquals(generateMeetingsListFilteredLocation(), result);
+
+        Mockito.verify(myMeetingRepository, Mockito.times(1)).getListMeetings();
+
+        Mockito.verifyNoMoreInteractions(myMeetingRepository);
+
+
+    }
+
+    @Test
+    public void when_filterMyListMeetingsWithDate() throws InterruptedException {
+
+        //Given
+        listMeetingsMutableLiveData.setValue(generateMeetingsList());
+
+        // When
+        myMeetingViewModel.filterMeetingByDate("03/05/2021");
+
+
+        //Then
+        List<MyMeeting> result = UnitTestUtils.getOrAwaitValue(myMeetingViewModel.getListMeetingsLiveData());
+
+        assertEquals(generateMeetingsListFilteredDate(), result);
+
+        Mockito.verify(myMeetingRepository, Mockito.times(1)).getListMeetings();
+
+        Mockito.verifyNoMoreInteractions(myMeetingRepository);
+
+
+    }
+
+    @Test
+    public void when_filterMyListMeetingsWithDateEmptyAndLocationEmpty() throws InterruptedException {
+
+        //Given
+        listMeetingsMutableLiveData.setValue(generateMeetingsList());
+
+        // When
+        myMeetingViewModel.filterMeetingByDate("");
+        myMeetingViewModel.filterMeetingByLocation("");
+
+
+        //Then
+        List<MyMeeting> result = UnitTestUtils.getOrAwaitValue(myMeetingViewModel.getListMeetingsLiveData());
+
+        assertEquals(generateMeetingsList(), result);
+
+        Mockito.verify(myMeetingRepository, Mockito.times(1)).getListMeetings();
+
+        Mockito.verifyNoMoreInteractions(myMeetingRepository);
+
+
+    }
+
+
+
 
 
     private List<MyMeeting> generateMeetingsList() {
@@ -123,7 +214,7 @@ public class MyMeetingUnitTest {
                         "Reunion A"
                         , "10H00"
                         , "03/05/2021"
-                        , "Salle 221"
+                        , "Nantes"
                         , "tandjigora@gmail.com"
                         , R.drawable.blue
                 ));
@@ -132,7 +223,16 @@ public class MyMeetingUnitTest {
                         "Reunion B"
                         , "11H00"
                         , "01/05/2021"
-                        , "Salle 223"
+                        , "Paris"
+                        , "tandjigora@gmail.com"
+                        , R.drawable.grey
+                ));
+        result.add(
+                new MyMeeting(
+                        "Reunion C"
+                        , "11H00"
+                        , "01/05/2021"
+                        , "Lille"
                         , "tandjigora@gmail.com"
                         , R.drawable.grey
                 ));
@@ -142,19 +242,50 @@ public class MyMeetingUnitTest {
     }
 
 
-    private List<MyMeeting> generateMeetingsListFilteredByLocationAndDate() {
+    private List<MyMeeting> generateMeetingsListFilteredLocation() {
         List<MyMeeting> listMeetingsFilteredByLocation = new ArrayList<>();
 
         listMeetingsFilteredByLocation.add(
+
                 new MyMeeting(
                         "Reunion B"
                         , "11H00"
                         , "01/05/2021"
-                        , "Salle 223"
+                        , "Paris"
                         , "tandjigora@gmail.com"
                         , R.drawable.grey
                 ));
         return listMeetingsFilteredByLocation;
+    }
+
+    private List<MyMeeting> generateMeetingsListFilteredLocationAndDate() {
+        List<MyMeeting> listMeetingsFilteredLocationAndDate = new ArrayList<>();
+
+        listMeetingsFilteredLocationAndDate.add(
+                new MyMeeting(
+                        "Reunion B"
+                        , "11H00"
+                        , "01/05/2021"
+                        , "Paris"
+                        , "tandjigora@gmail.com"
+                        , R.drawable.grey
+                ));
+        return listMeetingsFilteredLocationAndDate;
+    }
+
+    private List<MyMeeting> generateMeetingsListFilteredDate() {
+        List<MyMeeting> listMeetingsFilteredDate = new ArrayList<>();
+
+        listMeetingsFilteredDate.add(
+                new MyMeeting(
+                        "Reunion A"
+                        , "10H00"
+                        , "03/05/2021"
+                        , "Nantes"
+                        , "tandjigora@gmail.com"
+                        , R.drawable.blue
+                ));
+        return listMeetingsFilteredDate;
     }
 
 

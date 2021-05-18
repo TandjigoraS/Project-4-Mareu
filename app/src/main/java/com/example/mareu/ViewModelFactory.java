@@ -50,6 +50,6 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
                     mMyMeetingRepository,mApplication
             );
         }
-        throw new IllegalArgumentException("Unknown ViewModel class");
+        throw new IllegalArgumentException(mApplication.getString(R.string.unknown_viewModel_class));
     }
 }

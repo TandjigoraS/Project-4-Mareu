@@ -55,33 +55,95 @@ public class MyMeetingInstrumentedTest {
     }
 
     @Test
-    public void checkWhenTypeLocationInSearchBarListMeetingsIsFilteredByLocation() {
+    public void checkWhenEnterLocationToFilterListMeetingsIsFilteredByThisLocation() {
         addMeeting();
-        onView(allOf(ViewMatchers.withId(R.id.searchView), isDisplayed()))
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("Filter by location"))
+                .perform(click());
+        onView(withId(R.id.filter_by_location_edit_text))
                 .perform(click())
-                .perform(typeText("Salle 221"));
+                .perform(typeText("Paris"));
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.list_meeting_textview_meeting_information))
-                .check(matches(withText(containsString("Salle 221"))));
+                .check(matches(withText(containsString("Paris"))));
         onView(allOf(withId(R.id.recycler_view), isDisplayed()))
                 .check(new RecyclerViewItemCountAssertion(1));
 
     }
 
     @Test
-    public void checkWhenTypeDateInSearchBarListMeetingsIsFilteredByDate() {
+    public void checkWhenEnterDateToFilterListMeetingsIsFilteredByThisDate() {
         addMeeting();
-        onView(allOf(ViewMatchers.withId(R.id.searchView), isDisplayed()))
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("Filter by date"))
+                .perform(click());
+        onView(withId(R.id.filter_by_date_edit_text))
                 .perform(click())
                 .perform(typeText("1/5/2021"));
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.list_meeting_textview_meeting_information))
                 .check(matches(withText(containsString("1/5/2021"))));
+        onView(allOf(withId(R.id.recycler_view), isDisplayed()))
+                .check(new RecyclerViewItemCountAssertion(1));
 
     }
 
     @Test
+    public void checkWhenEnterDateAndLocationToFilterListMeetingsIsFilteredByThisDateAndLocation() {
+        addMeeting();
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("Filter by date"))
+                .perform(click());
+        onView(withId(R.id.filter_by_date_edit_text))
+                .perform(click())
+                .perform(typeText("30/5/2021"));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("Filter by location"))
+                .perform(click());
+        onView(withId(R.id.filter_by_location_edit_text))
+                .perform(click())
+                .perform(typeText("Paris"));
+        onView(withId(android.R.id.button1)).perform(click());
+
+        onView(withId(R.id.list_meeting_textview_meeting_information))
+                .check(matches(withText(containsString("30/5/2021"))))
+                .check(matches(withText(containsString("Paris"))));
+        onView(allOf(withId(R.id.recycler_view), isDisplayed()))
+                .check(new RecyclerViewItemCountAssertion(1));
+
+    }
+
+    @Test
+    public void checkUpdateListMeetingsIsWorking(){
+        addMeeting();
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("Filter by date"))
+                .perform(click());
+        onView(withId(R.id.filter_by_date_edit_text))
+                .perform(click())
+                .perform(typeText("30/5/2021"));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.filter))
+                .perform(click());
+        onView(withText("All meetings"))
+                .perform(click());
+        onView(allOf(withId(R.id.recycler_view), isDisplayed()))
+                .check(new RecyclerViewItemCountAssertion(3));
+
+
+    }
+
+
+    @Test
     public void checkRemoveMeetingIsWorking() {
         addMeeting();
-        int ITEM_LIST_MEETING = 2;
+        int ITEM_LIST_MEETING = 3;
         onView(allOf(ViewMatchers.withId(R.id.recycler_view), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction.deleteMeeting(R.id.list_meeting_imagebutton_delete_meeting)))
         .check(new RecyclerViewItemCountAssertion(ITEM_LIST_MEETING - 1));
@@ -95,15 +157,18 @@ public class MyMeetingInstrumentedTest {
         onView(withId(R.id.add_meeting_subEdit)).perform(click())
                 .perform(typeText("Reunion A")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_dateLyt)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(setDate(2021, 5, 30));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(setDate(2021, 5, 30));
         onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_timeLyt)).perform(click());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(setTime(15,30 ));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(setTime(15,30 ));
         onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_locationEdit)).perform(click())
-                .perform(typeText("Salle 221")).perform(ViewActions.closeSoftKeyboard());
+                .perform(typeText("Paris")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_membersEdit)).perform(click())
-                .perform(typeText("tandjigora@hotmail.com")).perform(ViewActions.closeSoftKeyboard());
+                .perform(typeText("tandjigora@hotmail.com"))
+                .perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_btn_save))
                 .perform(MyViewAction.handleConstraints(click(),isDisplayingAtLeast(65)));
         onView(withId(R.id.add_new_meeting)).perform(click());
@@ -112,17 +177,39 @@ public class MyMeetingInstrumentedTest {
         onView(withId(R.id.add_meeting_subEdit)).perform(click())
                 .perform(typeText("Reunion B")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_dateLyt)).perform(click());
-        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2021, 5, 1));
+        onView(isAssignableFrom(DatePicker.class))
+                .perform(setDate(2021, 5, 1));
         onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_timeLyt)).perform(click());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(setTime(16,30 ));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(setTime(16,30 ));
         onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.add_meeting_locationEdit)).perform(click())
-                .perform(typeText("Salle 223")).perform(ViewActions.closeSoftKeyboard());
+                .perform(typeText("Lyon")).perform(ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.add_meeting_membersEdit)).perform(click())
+                .perform(typeText("tandjigora@hotmail.com"))
+                .perform(ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.add_meeting_btn_save))
+                .perform(MyViewAction.handleConstraints(click(),isDisplayingAtLeast(65)));
+        onView(withId(R.id.add_new_meeting)).perform(click());
+        onView(withId(R.id.add_meeting_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.add_meeting_imageview_meeting)).perform(click()).perform();
+        onView(withId(R.id.add_meeting_subEdit)).perform(click())
+                .perform(typeText("Reunion C")).perform(ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.add_meeting_dateLyt)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(setDate(2021, 5, 30));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.add_meeting_timeLyt)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(setTime(15,30 ));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.add_meeting_locationEdit)).perform(click())
+                .perform(typeText("Lille")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_membersEdit)).perform(click())
                 .perform(typeText("tandjigora@hotmail.com")).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.add_meeting_btn_save))
                 .perform(MyViewAction.handleConstraints(click(),isDisplayingAtLeast(65)));
+
 
     }
 }

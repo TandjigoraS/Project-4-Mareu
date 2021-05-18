@@ -2,30 +2,36 @@ package com.example.mareu.model;
 
 public class AddMeetingViewState {
 
-    private final boolean isEmailValid;
-    private final boolean isLocationValid;
-    private final boolean isDateSelected;
-    private final boolean isTimeSelected;
+    private final String mEmailError;
+    private final String mLocationError;
+    private final String mDateError;
+    private final String mTimeError;
 
 
 
 
-    public AddMeetingViewState(boolean isEmailValid, boolean isLocationValid, boolean isDateSelected, boolean isTimeSelected) {
-        this.isEmailValid = isEmailValid;
-        this.isLocationValid = isLocationValid;
-        this.isDateSelected = isDateSelected;
-        this.isTimeSelected = isTimeSelected;
+    public AddMeetingViewState(String emailError, String locationError, String dateError, String timeError) {
+        mEmailError = emailError;
+        mLocationError = locationError;
+        mDateError = dateError;
+        mTimeError = timeError;
+
     }
 
-    public boolean isEmailValid() {
-        return isEmailValid;
+    public String getEmailError() {
+        return mEmailError;
     }
 
-    public boolean isLocationValid() {
-        return isLocationValid;
+    public String getLocationError() {
+        return mLocationError;
     }
 
-    public boolean isDateSelected() { return isDateSelected; }
+    public String getDateError() {
+        return mDateError;
+    }
 
-    public boolean isTimeSelected() { return isTimeSelected; }
+    public String getTimeError() {
+        return mTimeError;
+    }
+
 }

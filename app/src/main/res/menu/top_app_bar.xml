@@ -4,12 +4,30 @@
     tools:context="com.example.mareu.view.MyListMeetingsActivity">
 
     <item
-        android:id="@+id/searchView"
+        android:id="@+id/filter"
         android:contentDescription="@string/content_description_filter"
         android:icon="@drawable/ic_baseline_filter_list_24"
         android:title="@string/action_filter"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.widget.SearchView"/>
+        app:showAsAction="ifRoom|collapseActionView">
+
+        <menu>
+            <item
+                android:id="@+id/all_meetings"
+                android:title="@string/all_meetings"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_by_date"
+                android:title="@string/filter_by_date"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_by_location"
+                android:title="@string/filter_by_location"
+                app:showAsAction="never|withText" />
+
+        </menu>
+
+    </item>
+
 
 
 

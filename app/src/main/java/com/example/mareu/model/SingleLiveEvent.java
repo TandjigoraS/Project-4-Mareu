@@ -9,12 +9,14 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.mareu.R;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("unused")
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
-    private static final String TAG = "SingleLiveEvent";
+    private static final String TAG = String.valueOf(R.string.single_event);
 
     private final AtomicBoolean pending = new AtomicBoolean(false);
 
@@ -22,7 +24,7 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     @Override
     public void observe(@NonNull final LifecycleOwner owner, @NonNull final Observer<? super T> observer) {
         if (hasActiveObservers()) {
-            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.");
+            Log.w(TAG, String.valueOf(R.string.has_active_observe));
         }
 
         // Observe the internal MutableLiveData

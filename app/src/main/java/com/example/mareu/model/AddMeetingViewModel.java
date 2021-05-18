@@ -28,7 +28,7 @@ public class AddMeetingViewModel extends ViewModel {
     private final MyMeetingRepository mMyMeetingRepository;
     private final Application mApplication;
     private final MutableLiveData<AddMeetingViewState> mAddMeetingViewStateMutableLiveData = new MutableLiveData<>();
-    private final SingleLiveEvent<Boolean> meetingAdded  = new SingleLiveEvent<>();
+    private final SingleLiveEvent<Boolean> meetingAdded = new SingleLiveEvent<>();
 
 
     public AddMeetingViewModel(MyMeetingRepository myMeetingRepository, Application application) {
@@ -43,11 +43,29 @@ public class AddMeetingViewModel extends ViewModel {
     }
 
     public void addMeeting(String subjectMeeting, String timeMeeting, String dateMeeting, String locationMeeting, String membersMeeting, int imageMeeting) {
-        String[] membersAddressEmail = membersMeeting.split(",");
-        boolean locationIsRight = !TextUtils.isEmpty(locationMeeting);
+        String[] membersAddressEmail = membersMeeting.split(mApplication.getString(R.string.comma));
+        String locationError;
+        String timeError;
+        String dateError;
+        String addressError;
+
+        if (TextUtils.isEmpty(timeMeeting)) {
+            timeError = mApplication.getString(R.string.time_error);;
+        } else {
+            timeError = null;
+        }
+        if (TextUtils.isEmpty(locationMeeting)) {
+            locationError = mApplication.getString(R.string.location_error);;
+        } else {
+            locationError = null;
+        }
+        if (TextUtils.isEmpty(dateMeeting)) {
+            dateError = mApplication.getString(R.string.date_error);;
+        } else {
+            dateError = null;
+        }
+
         boolean addressIsRight = true;
-        boolean isDateSelected = !TextUtils.isEmpty(dateMeeting);
-        boolean isTimeSelected = !TextUtils.isEmpty(dateMeeting);
         for (String address : membersAddressEmail) {
             String trimAddress = address.trim();
             Matcher matcher = EMAIL_ADDRESS.matcher(trimAddress);
@@ -55,18 +73,23 @@ public class AddMeetingViewModel extends ViewModel {
                 addressIsRight = false;
             }
         }
-
-
-        if(locationIsRight && addressIsRight && isDateSelected && isTimeSelected){
-            mMyMeetingRepository.addMeeting(new MyMeeting(subjectMeeting, timeMeeting, dateMeeting,locationMeeting, membersMeeting, imageMeeting));
-            onMeetingAdded().setValue(true);
-
-
-
+        if (!addressIsRight) {
+            addressError = mApplication.getString(R.string.address_error);
         } else {
-            mAddMeetingViewStateMutableLiveData.setValue(new AddMeetingViewState(addressIsRight,locationIsRight, isDateSelected, isTimeSelected));
+            addressError = null;
         }
 
+        if(imageMeeting == 0){
+            imageMeeting = R.drawable.yellow;
+        }
+
+        if (locationError == null && addressError == null && dateError == null && timeError == null) {
+
+            mMyMeetingRepository.addMeeting(new MyMeeting(subjectMeeting, timeMeeting, dateMeeting, locationMeeting, membersMeeting, imageMeeting));
+            onMeetingAdded().setValue(true);
+        } else {
+            mAddMeetingViewStateMutableLiveData.setValue(new AddMeetingViewState(addressError, locationError, dateError, timeError));
+        }
 
     }
 
@@ -74,13 +97,13 @@ public class AddMeetingViewModel extends ViewModel {
         return mAddMeetingViewStateMutableLiveData;
     }
 
-    public String getDateMeetingFormat(int dayOfMonth, int month , int year){
+    public String getDateMeetingFormat(int dayOfMonth, int month, int year) {
         month = month + 1;
-        return mApplication.getString(R.string.date_meeting_format,dayOfMonth,month,year);
+        return mApplication.getString(R.string.date_meeting_format, dayOfMonth, month, year);
     }
 
-    public String getTimeMeetingFormat(int hour, int minute){
-        return mApplication.getString(R.string.time_meeting_format,hour,minute);
+    public String getTimeMeetingFormat(int hour, int minute) {
+        return mApplication.getString(R.string.time_meeting_format, hour, minute);
     }
 
 }

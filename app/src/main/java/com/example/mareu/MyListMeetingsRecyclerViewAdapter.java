@@ -54,7 +54,6 @@ public class MyListMeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MyLi
         MyMeeting myMeeting = mMyMeetings.get(position);
         holder.mInformationMeeting.setText(mMyMeetingViewModel.getMeetingFormat(myMeeting));
         holder.mMembersMeeting.setText(myMeeting.getMembersMeeting());
-
         Glide.with(holder.mImageMeeting.getContext())
                 .load(myMeeting.getImagesMeeting())
                 .apply(RequestOptions.circleCropTransform())

@@ -1,5 +1,6 @@
 package com.example.mareu.view;
 
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.mareu.MainApplication;
 import com.example.mareu.R;
 import com.example.mareu.ViewModelFactory;
 import com.example.mareu.model.AddMeetingViewModel;
@@ -48,13 +50,13 @@ public class AddMeetingActivity extends AppCompatActivity {
     ImageView addImageMeeting3;
 
     @BindView(R.id.add_meeting_locationLyt)
-    TextInputLayout addLocationMeeting;
+    TextInputLayout addLocationMeetingLyt;
 
     @BindView(R.id.add_meeting_membersLyt)
-    TextInputLayout addMembersMeeting;
+    TextInputLayout addMembersMeetingLyt;
 
     @BindView(R.id.add_meeting_subjectLyt)
-    TextInputLayout addSubjectMeeting;
+    TextInputLayout addSubjectMeetingLyt;
 
     @BindView(R.id.add_meeting_timeLyt)
     TextInputLayout addTimeMeetingLyt;
@@ -73,6 +75,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     private int imageMeeting;
     final Calendar myCalendar = Calendar.getInstance();
     private TimePickerDialog mTimePickerDialog;
+    private Application mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_meeting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+        mApplication = MainApplication.getApplication();
         Glide.with(this)
                 .load(R.drawable.blue)
                 .apply(RequestOptions.circleCropTransform())
@@ -112,9 +116,10 @@ public class AddMeetingActivity extends AppCompatActivity {
             addImageMeeting.startAnimation(animation);
             addImageMeeting2.startAnimation(animation);
         });
-        AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
+        AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance())
+                .get(AddMeetingViewModel.class);
 
-        addSubjectMeeting.getEditText().addTextChangedListener(new TextWatcher() {
+        addSubjectMeetingLyt.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -132,7 +137,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
 
 
-        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> addDateMeeting.setText(viewModel.getDateMeetingFormat(dayOfMonth, month, year));
+        DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> addDateMeeting
+                .setText(viewModel.getDateMeetingFormat(dayOfMonth, month, year));
 
         addDateMeeting.setOnClickListener(v -> {
             int year = myCalendar.get(Calendar.YEAR);
@@ -148,52 +154,37 @@ public class AddMeetingActivity extends AppCompatActivity {
             int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
             int minutes = myCalendar.get(Calendar.MINUTE);
             mTimePickerDialog = new TimePickerDialog(AddMeetingActivity.this,
-                    (tp, sHour, sMinute) -> addTimeMeeting.setText(viewModel.getTimeMeetingFormat(sHour,sMinute)), hour, minutes, true);
+                    (tp, sHour, sMinute) -> addTimeMeeting.setText(viewModel
+                            .getTimeMeetingFormat(sHour,sMinute)), hour, minutes, true);
             mTimePickerDialog.show();
         });
 
         addMeeting.setOnClickListener(v -> {
 
             String timeMeeting = addTimeMeetingLyt.getEditText().getText().toString();
-            String locationMeeting = addLocationMeeting.getEditText().getText().toString();
-            String membersMeeting = addMembersMeeting.getEditText().getText().toString();
-            String subjectMeeting = addSubjectMeeting.getEditText().getText().toString();
+            String locationMeeting = addLocationMeetingLyt.getEditText().getText().toString();
+            String membersMeeting = addMembersMeetingLyt.getEditText().getText().toString();
+            String subjectMeeting = addSubjectMeetingLyt.getEditText().getText().toString();
             String dateMeeting = addDateMeetingLyt.getEditText().getText().toString();
-            if (imageMeeting == 0) {
-                imageMeeting = R.drawable.yellow;
-            }
 
-            viewModel.addMeeting(subjectMeeting, timeMeeting, dateMeeting, locationMeeting, membersMeeting, imageMeeting);
+
+            viewModel.addMeeting(subjectMeeting
+                    , timeMeeting
+                    , dateMeeting
+                    , locationMeeting
+                    , membersMeeting
+                    , imageMeeting);
 
 
         });
         viewModel.getAddMeetingViewStateLiveData().observe(this, addMeetingViewState -> {
-            if (!addMeetingViewState.isEmailValid()) {
-                addMembersMeeting.setError("Address email is wrong or empty");
-            } else {
-                addMembersMeeting.setError(null);
-            }
-            if (!addMeetingViewState.isLocationValid()) {
-                addLocationMeeting.setError("The location of the meeting is empty");
-            } else {
-                addLocationMeeting.setError(null);
-            }
-            if (!addMeetingViewState.isDateSelected()) {
-                addDateMeetingLyt.setError("The date wasn't selected");
-
-            } else {
-                addDateMeetingLyt.setError(null);
-            }
-            if (!addMeetingViewState.isTimeSelected()) {
-                addTimeMeetingLyt.setError("The time wasn't selected");
-
-            } else {
-                addTimeMeetingLyt.setError(null);
-
-            }
+            addMembersMeetingLyt.setError(addMeetingViewState.getEmailError());
+            addLocationMeetingLyt.setError(addMeetingViewState.getLocationError());
+            addDateMeetingLyt.setError(addMeetingViewState.getDateError());
+            addTimeMeetingLyt.setError(addMeetingViewState.getTimeError());
         });
 
-        viewModel.onMeetingAdded().observe(this, isSuccess -> addMeetingWithSuccess(isSuccess));
+        viewModel.onMeetingAdded().observe(this, this::addMeetingWithSuccess);
 
     }
 
@@ -201,7 +192,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         if (isSuccess) {
             finish();
         } else {
-            Toast.makeText(getApplicationContext(), "Error : Meeting doesn't add in the list", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),mApplication.getString(R.string.error_add_meeting)
+                    , Toast.LENGTH_LONG).show();
         }
 
     }

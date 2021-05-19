@@ -43,6 +43,13 @@ public class MyMeetingInstrumentedTest {
 
 
     @Test
+    public void checkAtFirstMyListMeetingsIsEmpty() {
+        onView(withId(R.id.list_meeting_activity)).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.recycler_view), isDisplayed()))
+                .check(new RecyclerViewItemCountAssertion(0));
+    }
+
+    @Test
     public void checkIfClickAddButtonAddMeetingPagerIsDisplayed() {
         onView(withId(R.id.list_meeting_activity)).check(matches(isDisplayed()));
         onView(withId(R.id.add_new_meeting)).perform(click());
@@ -89,6 +96,8 @@ public class MyMeetingInstrumentedTest {
                 .check(new RecyclerViewItemCountAssertion(1));
 
     }
+
+
 
     @Test
     public void checkWhenEnterDateAndLocationToFilterListMeetingsIsFilteredByThisDateAndLocation() {

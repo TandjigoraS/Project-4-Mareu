@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Mareu" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <!-- Primary brand color. -->
@@ -15,5 +15,4 @@
 
     <style name="Theme.Mareu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Mareu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

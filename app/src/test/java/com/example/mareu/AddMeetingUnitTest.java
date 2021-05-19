@@ -20,7 +20,7 @@ public class AddMeetingUnitTest {
     @Rule
     public final InstantTaskExecutorRule rule = new InstantTaskExecutorRule();
 
-    MyMeetingRepository myMeetingRepository = Mockito.spy(MyMeetingRepository.class);
+    final MyMeetingRepository myMeetingRepository = Mockito.spy(MyMeetingRepository.class);
 
     private AddMeetingViewModel mAddMeetingViewModel;
 

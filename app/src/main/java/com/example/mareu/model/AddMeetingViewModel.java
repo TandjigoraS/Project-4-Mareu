@@ -50,17 +50,17 @@ public class AddMeetingViewModel extends ViewModel {
         String addressError;
 
         if (TextUtils.isEmpty(timeMeeting)) {
-            timeError = mApplication.getString(R.string.time_error);;
+            timeError = mApplication.getString(R.string.time_error);
         } else {
             timeError = null;
         }
         if (TextUtils.isEmpty(locationMeeting)) {
-            locationError = mApplication.getString(R.string.location_error);;
+            locationError = mApplication.getString(R.string.location_error);
         } else {
             locationError = null;
         }
         if (TextUtils.isEmpty(dateMeeting)) {
-            dateError = mApplication.getString(R.string.date_error);;
+            dateError = mApplication.getString(R.string.date_error);
         } else {
             dateError = null;
         }

@@ -25,9 +25,9 @@ public class MyMeetingUnitTest {
 
     @Rule
     public final InstantTaskExecutorRule rule = new InstantTaskExecutorRule();
-    MutableLiveData<List<MyMeeting>> listMeetingsMutableLiveData = new MutableLiveData<>();
+    final MutableLiveData<List<MyMeeting>> listMeetingsMutableLiveData = new MutableLiveData<>();
 
-    MyMeetingRepository myMeetingRepository = Mockito.mock(MyMeetingRepository.class);
+    final MyMeetingRepository myMeetingRepository = Mockito.mock(MyMeetingRepository.class);
 
     private MyMeetingViewModel myMeetingViewModel;
 
@@ -45,7 +45,7 @@ public class MyMeetingUnitTest {
 
 
     @Test
-    public void when_myListMeetingsHaveMeeting() throws InterruptedException {
+    public void when_myListMeetingsHasMeeting() throws InterruptedException {
         //Given
 
         listMeetingsMutableLiveData.setValue(generateMeetingsList());
@@ -64,7 +64,7 @@ public class MyMeetingUnitTest {
 
     }
     @Test
-    public void when_myListMeetingsDoesNotHaveMeeting() throws InterruptedException {
+    public void when_myListMeetingsHasNoMeeting() throws InterruptedException {
         //Given
 
         listMeetingsMutableLiveData.setValue(null);

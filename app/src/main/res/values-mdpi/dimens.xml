@@ -30,7 +30,6 @@
     <!--    Text view - information meeting -->
     <dimen name="information_meeting_view_holder_marginStart"> 4dp </dimen>
     <dimen name="information_meeting_view_holder_marginTop"> 10dp </dimen>
-    <dimen name="information_meeting_view_holder_textSize"> 16sp </dimen>
 
 
     <!--    Text view - members meeting -->

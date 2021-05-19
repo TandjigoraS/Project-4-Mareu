@@ -1,8 +1,6 @@
 package com.example.mareu;
 
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,11 +13,11 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private static ViewModelFactory sFactory;
     private final MyMeetingRepository mMyMeetingRepository;
-    private final Application mApplication;
 
-    public ViewModelFactory(@NonNull MyMeetingRepository myMeetingRepository, Application application) {
+
+    public ViewModelFactory(@NonNull MyMeetingRepository myMeetingRepository) {
         this.mMyMeetingRepository = myMeetingRepository;
-        mApplication = application;
+
 
     }
 
@@ -28,7 +26,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             synchronized (ViewModelFactory.class) {
                 if (sFactory == null) {
                     sFactory = new ViewModelFactory(
-                            new MyMeetingRepository(), MainApplication.getApplication()
+                            new MyMeetingRepository()
                     );
                 }
             }
@@ -43,13 +41,13 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MyMeetingViewModel.class)) {
             return (T) new MyMeetingViewModel(
-                    mMyMeetingRepository,mApplication
+                    mMyMeetingRepository,MainApplication.getApplication()
             );
         } else if (modelClass.isAssignableFrom(AddMeetingViewModel.class)) {
             return (T) new AddMeetingViewModel(
-                    mMyMeetingRepository,mApplication
+                    mMyMeetingRepository,MainApplication.getApplication()
             );
         }
-        throw new IllegalArgumentException(mApplication.getString(R.string.unknown_viewModel_class));
+        throw new IllegalArgumentException("Unknown ViewModel class");
     }
 }

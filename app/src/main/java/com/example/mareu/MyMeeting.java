@@ -1,20 +1,17 @@
 package com.example.mareu;
 
 
-import android.graphics.drawable.Drawable;
-
 import java.util.Objects;
-import java.util.Random;
 
 public class MyMeeting {
 
 
-    public String mTimeMeeting;
-    public String mLocationMeeting;
-    public String mMembersMeeting;
-    public String mSubjectMeeting;
-    public String mDateMeeting;
-    public int mImagesMeeting;
+    public final String mTimeMeeting;
+    public final String mLocationMeeting;
+    public final String mMembersMeeting;
+    public final String mSubjectMeeting;
+    public final String mDateMeeting;
+    public final int mImagesMeeting;
 
 
 
@@ -37,48 +34,24 @@ public class MyMeeting {
         return mSubjectMeeting;
     }
 
-    public void setSubjectMeeting(String subjectMeeting) {
-        mSubjectMeeting = subjectMeeting;
-    }
-
     public String getTimeMeeting() {
         return mTimeMeeting;
-    }
-
-    public void setTimeMeeting(String timeMeeting) {
-        mTimeMeeting = timeMeeting;
     }
 
     public String getLocationMeeting() {
         return mLocationMeeting;
     }
 
-    public void setLocationMeeting(String locationMeeting) {
-        mLocationMeeting = locationMeeting;
-    }
-
     public String getMembersMeeting() {
         return mMembersMeeting;
-    }
-
-    public void setMembersMeeting(String membersMeeting) {
-        mMembersMeeting = membersMeeting;
     }
 
     public String getDateMeeting() {
         return mDateMeeting;
     }
 
-    public void setDateMeeting(String dateMeeting) {
-        mDateMeeting = dateMeeting;
-    }
-
     public int getImagesMeeting() {
         return mImagesMeeting;
-    }
-
-    public void setImagesMeeting(int imagesMeeting) {
-        mImagesMeeting = imagesMeeting;
     }
 
 

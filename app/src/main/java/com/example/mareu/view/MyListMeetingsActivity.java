@@ -1,19 +1,15 @@
 package com.example.mareu.view;
 
 import android.app.Application;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -91,12 +87,9 @@ public class MyListMeetingsActivity extends AppCompatActivity {
                 builder.setTitle(mApplication.getString(R.string.date_title_alert_dialog));
                 final View filterByDate = getLayoutInflater().inflate(R.layout.filter_by_date, null);
                 builder.setView(filterByDate);
-                builder.setPositiveButton(mApplication.getString(R.string.positive_button_alert_dialog), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText filter = filterByDate.findViewById(R.id.filter_by_date_edit_text);
-                        myMeetingViewModel.filterMeetingByDate(filter.getText().toString().trim());
-                    }
+                builder.setPositiveButton(mApplication.getString(R.string.positive_button_alert_dialog), (dialog1, which) -> {
+                    EditText filter = filterByDate.findViewById(R.id.filter_by_date_edit_text);
+                    myMeetingViewModel.filterMeetingByDate(filter.getText().toString().trim());
                 });
                 dialog = builder.create();
                 dialog.show();
@@ -106,13 +99,10 @@ public class MyListMeetingsActivity extends AppCompatActivity {
                 builder.setTitle(mApplication.getString(R.string.location_title_alert_dialog));
                 final View filterByLocation = getLayoutInflater().inflate(R.layout.filter_by_location, null);
                 builder.setView(filterByLocation);
-                builder.setPositiveButton(mApplication.getString(R.string.positive_button_alert_dialog), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText filter = filterByLocation.findViewById(R.id.filter_by_location_edit_text);
-                        myMeetingViewModel.filterMeetingByLocation(filter.getText().toString().trim());
+                builder.setPositiveButton(mApplication.getString(R.string.positive_button_alert_dialog), (dialog12, which) -> {
+                    EditText filter = filterByLocation.findViewById(R.id.filter_by_location_edit_text);
+                    myMeetingViewModel.filterMeetingByLocation(filter.getText().toString().trim());
 
-                    }
                 });
                 dialog = builder.create();
                 dialog.show();

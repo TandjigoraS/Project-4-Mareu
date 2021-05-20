@@ -33,6 +33,7 @@
     <string name="error_add_meeting">Error : Meeting does not add in the list</string>
     <string name="has_active_observe">Multiple observers registered but only one will be notified of changes.</string>
     <string name="single_event">SingleLiveEvent</string>
-    <string name="location">location</string>
+    <string name="location">Location</string>
+    <string name="date">Date</string>
 
 </resources>
